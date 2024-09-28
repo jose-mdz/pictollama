@@ -54,7 +54,7 @@ export function LlamaCharacter() {
 				)}
 			/>
 			{gameState === "won" && (
-				<div className="flex justify-center ">
+				<div className="fixed flex justify-center bottom-10 left-0 right-0">
 					<Button
 						className="text-xl px-10 py-6 rounded-full"
 						onClick={() => {
