@@ -6,8 +6,14 @@ import { Zap } from "lucide-react";
 
 export function LlamaCharacter() {
 	const { clear } = useDrawEditor();
-	const { interpretation, lastSpeed, working, gameState, playAgain } =
-		useLetMeGuess();
+	const {
+		interpretation,
+		lastSpeed,
+		working,
+		gameState,
+		playAgain,
+		targetWord,
+	} = useLetMeGuess();
 	return (
 		<div
 			className={cn(
@@ -20,17 +26,23 @@ export function LlamaCharacter() {
 					"border mt-2 bg-white border-border px-3 py-1 rounded-f ull flex gap-3 items-center justify-center",
 				)}
 			>
-				{working
-					? "Guessing..."
-					: `${trimText(interpretation.replaceAll(".", ""))}?` ||
-						"Come on! Clock is ticking ..."}
-				{lastSpeed > 0 && (
+				{gameState === "playing" ? (
 					<>
-						<Zap size={16} className="text-[#f55036]" />
-						<div className="text-sm text-gray-500">
-							{reduceToThreeDigits(lastSpeed)}ms
-						</div>
+						{working
+							? "Guessing..."
+							: `${trimText(interpretation.replaceAll(".", ""))}?` ||
+								"Come on! Clock is ticking ..."}
+						{lastSpeed > 0 && (
+							<>
+								<Zap size={16} className="text-[#f55036]" />
+								<div className="text-sm text-gray-500">
+									{reduceToThreeDigits(lastSpeed)}ms
+								</div>
+							</>
+						)}
 					</>
+				) : (
+					`${targetWord}!`
 				)}
 			</div>
 			<div
