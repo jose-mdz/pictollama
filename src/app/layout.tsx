@@ -6,7 +6,7 @@ import { KeysProvider } from "@/providers/keys-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Pcitollama! Groq - Llama Vision",
+	title: "Pictollama! Groq - Llama Vision",
 	description: "Play drawing with an agent",
 	openGraph: {
 		images: ["/og-image.png"],
