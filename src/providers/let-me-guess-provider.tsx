@@ -142,18 +142,18 @@ const [LetMeGuessProvider, useLetMeGuess] = providerFactory(() => {
 	};
 });
 
-const oppoonentPrompt = `You are playing a drawing guessing game. You hame to come up with
-something that is easy to draw, but not too easy to guess, for a human. Shouldn't be more than 3 words.
-High preference for a one word guess.
-
-Reply with only the thing to guess. No extra text or words.
-`;
-
-const visionPrompt = (target: string) => `
+const visionPrompt = (target: string) => {
+	const count = target.split(" ").length;
+	const words = count === 1 ? "word" : "words";
+	return `
 The image is a drawing from a guessing game.
-The answer should be exactly ${target.split(" ").length} words.
-Describe the image in ${target.split(" ").length} words.
+The answer should be exactly ${count} ${words}.
+Describe the image in ${count} ${words}.
+If the image is pointing somewhere, focus on that and describe that in ${count} ${words}.
+If there is an indication of signaling a specific part of the image, think about what could it be and describe it in ${count} ${words}. 
+Remember this is a guessing game and you should be trying to guess what the user is pointing at.
 `;
+};
 
 function hit(target: string, guess: string): boolean {
 	if (!target || !guess) {
