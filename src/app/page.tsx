@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 const GRID_TILE = createGridTile(10, 10);
 
 export default function Home() {
-	const { keys, setKeys } = useKeys();
 	const [inited, setInited] = useState(false);
 
 	useEffect(() => {
@@ -27,23 +26,11 @@ export default function Home() {
 		);
 	}
 
-	if (!keys) {
-		return <EnterKey onSuccess={(k) => setKeys(k)} />;
-	}
-
 	return (
 		<main className="h-svh" style={{ backgroundImage: `url(${GRID_TILE})` }}>
 			<LetMeGuessProvider>
 				<LetMeGuess />
 			</LetMeGuessProvider>
-			<Button
-				className="fixed bottom-1 right-1"
-				size={"icon"}
-				variant={"ghost"}
-				onClick={() => setKeys(null)}
-			>
-				<LogOut />
-			</Button>
 		</main>
 	);
 }

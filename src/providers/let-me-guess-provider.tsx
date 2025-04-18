@@ -3,7 +3,6 @@ import { providerFactory } from "../lib/provider-factory";
 import { useKeys } from "./keys-provider";
 import { addBackground } from "@/lib/utils";
 import { useLlamaVision } from "@/hooks/use-llama-vision";
-import { useLlm } from "@/hooks/use-llm";
 import confetti from "canvas-confetti";
 import { drawingPrompts } from "@/lib/words";
 
@@ -11,12 +10,6 @@ const TIMER_GUESS_TICK = 2_000;
 type GameState = "playing" | "won" | "lost";
 
 const [LetMeGuessProvider, useLetMeGuess] = providerFactory(() => {
-	const { keys } = useKeys();
-
-	if (!keys) {
-		throw new Error("No keys");
-	}
-
 	const [workingOnWord, setWorkingOnWord] = useState(false);
 	const [targetWord, setTargetWord] = useState<string>("");
 	const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -25,9 +18,7 @@ const [LetMeGuessProvider, useLetMeGuess] = providerFactory(() => {
 	const [interpretation, setInterpretation] = useState<string>("");
 	const [lastSpeed, setLastSpeed] = useState<number>(0);
 	const [lastSubmit, setLastSubmit] = useState<number>(0);
-	const { groqApiKey } = keys;
-	const { callLlamaVision } = useLlamaVision(groqApiKey);
-	const { callLlm } = useLlm(groqApiKey);
+	const { fetchGuess } = useLlamaVision();
 	const prompt = visionPrompt(targetWord);
 	const [gameState, setGameState] = useState<GameState>("playing");
 
@@ -39,21 +30,20 @@ const [LetMeGuessProvider, useLetMeGuess] = providerFactory(() => {
 		setWorking(true);
 
 		setMessages([...messages, { role: "user", content: prompt }]);
-		const response = await callLlamaVision(
-			prompt,
+
+		const { response } = await fetchGuess(
+			targetWord.split(" ").length,
 			await addBackground(currentImage),
 		);
 
-		const { role, content } = response.choices[0].message;
+		console.log(response);
 
-		setMessages((m) => [...m, { role, content }]);
 		setWorking(false);
 
-		const lastOne = response.choices[0].message.content;
+		// const lastOne = response.choices[0].message.content;
+		const lastOne = response;
 		setInterpretation(lastOne || "");
 
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		setLastSpeed((response as any).usage?.total_time || 0);
 		setLastSubmit(Date.now());
 	}
 
