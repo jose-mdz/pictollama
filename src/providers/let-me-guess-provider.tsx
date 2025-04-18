@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { providerFactory } from "../lib/provider-factory";
-import { useKeys } from "./keys-provider";
 import { addBackground } from "@/lib/utils";
 import { useLlamaVision } from "@/hooks/use-llama-vision";
 import confetti from "canvas-confetti";

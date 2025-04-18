@@ -14,6 +14,8 @@ export function LlamaCharacter() {
 		playAgain,
 		targetWord,
 	} = useLetMeGuess();
+	const guess = trimText(interpretation.replaceAll(".", ""));
+	const caption = guess ? `${guess}?` : "Start drawing! I'll guess";
 	return (
 		<div
 			className={cn(
@@ -23,15 +25,14 @@ export function LlamaCharacter() {
 		>
 			<div
 				className={cn(
-					"border mt-2 bg-white border-border px-3 py-1 rounded-f ull flex gap-3 items-center justify-center",
+					"border mt-2 bg-white border-border px-3 py-1 rounded-f ull flex gap-3 items-center justify-center rounded-lg",
 				)}
 			>
 				{gameState === "playing" ? (
 					<>
 						{working
 							? "Guessing..."
-							: `${trimText(interpretation.replaceAll(".", ""))}?` ||
-								"Come on! Clock is ticking ..."}
+							: caption || "Come on! Clock is ticking ..."}
 						{lastSpeed > 0 && (
 							<>
 								<Zap size={16} className="text-[#f55036]" />
