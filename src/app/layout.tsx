@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 	title: "Pictollama! Groq - Llama Vision",
 	description: "Play drawing with an agent",
 	openGraph: {
-		images: ["/og-image.png"],
+		images: "https://pictollama.geeksplainer.wtf/og-image.png",
 	},
 };
 
